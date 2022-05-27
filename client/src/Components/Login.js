@@ -4,7 +4,7 @@ import "../index.css";
 import { useNavigate } from "react-router-dom";
 
 const initialValues = {
-	empNo: "",
+	email: "",
 	password: "",
 };
 
@@ -22,20 +22,21 @@ export default function ApiFetch(props) {
 			[e.target.name]: e.target.value,
 		});
 	};
+	console.log(login);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const userData = {
-			empNo: login.empNo,
+			email: login.email,
 			password: login.password,
 		};
 
 		axiosInstance
-			.post("/Login/Login", userData)
+			.post("http://localhost:5001/user/login", userData)
 			.then((res) => {
-				localStorage.setItem("LoginToken", res.data.data.tokenData);
+				localStorage.setItem("LoginToken", res.data.token);
 				if (res.data) {
-					navigate("/HomePage", { state: userData.empNo });
+					navigate("/HomePage", { state: userData.email });
 				}
 			})
 			.catch((error) => {
@@ -48,18 +49,17 @@ export default function ApiFetch(props) {
 			<div className="w-full max-w-xs mx-auto">
 				<form
 					className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-					onSubmit={handleSubmit}
-				>
+					onSubmit={handleSubmit}>
 					<div className="mb-4">
 						<label className="block text-gray-700 text-sm font-bold mb-2">
-							Username
+							Email
 						</label>
 						<input
 							className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-							id="username"
-							name="empNo"
+							id="email"
+							name="email"
 							type="text"
-							placeholder="Username"
+							placeholder="Email"
 							onChange={handleChange}
 						/>
 					</div>
@@ -80,8 +80,7 @@ export default function ApiFetch(props) {
 						<button
 							className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
 							type="submit"
-							style={{ background: "black" }}
-						>
+							style={{ background: "black" }}>
 							Sign In
 						</button>
 					</div>

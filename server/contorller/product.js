@@ -12,7 +12,7 @@ let databaseName = "Shoppingdb";
 	try {
 		const client = await MongoClient.connect(ConnectionUrl);
 		db = client.db(databaseName);
-		console.log(`Connection Done to :- ${databaseName}`);
+		console.log(`Product Crud Connection Done to :- ${databaseName}`);
 	} catch (err) {
 		throw err;
 	}
